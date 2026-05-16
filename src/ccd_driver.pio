@@ -1,0 +1,53 @@
+.program phist_pulse
+    pull block
+    set pins, 1
+    set x, 9
+overlap_wait:
+    jmp x-- overlap_wait
+    irq set 0
+    set y, 31
+phist_outer_1:
+    set x, 31
+phist_inner_1:
+    jmp x-- phist_inner_1
+    jmp y-- phist_outer_1
+    set y, 31
+phist_outer_2:
+    set x, 31
+phist_inner_2:
+    jmp x-- phist_inner_2
+    jmp y-- phist_outer_2
+    set y, 31
+phist_outer_3:
+    set x, 31
+phist_inner_3:
+    jmp x-- phist_inner_3
+    jmp y-- phist_outer_3
+    set pins, 0
+
+.program phi_square
+    wait 1 irq 0
+phi_high:
+    set pins, 0b01
+    set y, 31
+phi_high_outer:
+    set x, 31
+phi_high_inner:
+    jmp x-- phi_high_inner
+    jmp y-- phi_high_outer
+    set pins, 0b10
+    set y, 31
+phi_low_outer:
+    set x, 31
+phi_low_inner:
+    jmp x-- phi_low_inner
+    jmp y-- phi_low_outer
+    jmp phi_high
+
+.program convst_pulse
+    pull block
+    set pins, 1
+    set x, 31
+loop:
+    jmp x-- loop
+    set pins, 0
